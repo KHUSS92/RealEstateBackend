@@ -90,3 +90,9 @@ coverage/
 
 # JetBrains Rider
 .idea/
+
+# Ignore appsettings.json if it contains sensitive data
+appsettings.json
+
+# Ignore any environment-specific files
+appsettings.*.json

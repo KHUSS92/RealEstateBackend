@@ -1,33 +1,32 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using RealEstateBackend.Models;
+﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateBackend.Services;
+using System.Threading.Tasks;
 
 namespace RealEstateBackend.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/property")]
     public class PropertyController : ControllerBase
     {
-        private readonly ZillowService _zillowService;
+        private readonly IRentCastService _rentCastService;
 
-        public PropertyController(ZillowService zillowService)
+        public PropertyController(IRentCastService rentCastService)
         {
-            _zillowService = zillowService;
+            _rentCastService = rentCastService;
         }
 
-        [HttpGet("{propertyId}")]
-        public async Task<IActionResult> GetProperty(string propertyId)
+        [HttpGet("{address}")]
+        public async Task<IActionResult> GetPropertyDetails(string address)
         {
-            var propertyData = await _zillowService.GetPropertyById(propertyId);
-
-            if (propertyData == null)
+            try
             {
-                return NotFound(new { Message = "Property not found", PropertyId = propertyId });
+                var propertyDetails = await _rentCastService.GetPropertyDetailsAsync(address);
+                return Ok(propertyDetails);
             }
-
-            return Ok(propertyData);
+            catch (ApplicationException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
         }
-
     }
 }

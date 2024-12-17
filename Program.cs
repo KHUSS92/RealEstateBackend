@@ -11,6 +11,7 @@ builder.Services.AddHttpClient("ZillowApi", client =>
 });
 
 builder.Services.AddScoped<ZillowService>();
+builder.Services.AddScoped<IRentCastService, RentCastService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
