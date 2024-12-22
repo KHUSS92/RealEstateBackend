@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using RealEstateBackend.Models;
 
 namespace RealEstateBackend.Services
 {
     public interface IRentCastService
     {
-        Task<string> GetPropertyDetailsAsync(string address);
+        Task<Property?> GetPropertyByIdAsync(string propertyId);
+        Task<List<PropertyHistory>> GetPropertyHistoryAsync(string propertyId);
+        Task<PropertyAddress?> GetPropertyAddressAsync(string propertyId);
     }
 }
